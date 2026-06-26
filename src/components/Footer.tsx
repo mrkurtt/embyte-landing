@@ -26,7 +26,7 @@ export function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="inline-block">
               <Image
-                src="/embyte.png"
+                src="/embyte-icon.png"
                 alt="embyte"
                 width={100}
                 height={28}

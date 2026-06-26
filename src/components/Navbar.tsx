@@ -22,15 +22,18 @@ export function Navbar() {
         className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
-        <Link href="/" className="flex shrink-0 items-center gap-2">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5">
           <Image
-            src="/embyte.png"
-            alt="embyte"
-            width={120}
-            height={32}
-            className="h-7 w-auto"
+            src="/embyte-icon.png"
+            alt=""
+            width={1326}
+            height={869}
+            className="h-8 w-auto"
             priority
           />
+          <span className="text-lg font-semibold tracking-tight text-foreground lowercase">
+            embyte
+          </span>
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">

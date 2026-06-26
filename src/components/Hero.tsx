@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/Button";
 import { DashboardMockup } from "@/components/DashboardMockup";
+import { Button } from "@/components/ui/Button";
 
 export function Hero() {
   return (
@@ -15,7 +15,7 @@ export function Hero() {
             Event Infrastructure
           </p>
           <h1 className="text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Embyte:{" "}
+            embyte:{" "}
             <span className="text-brand-gradient">Empower your events</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
@@ -33,7 +33,10 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="animate-fade-in-up lg:pl-4" style={{ animationDelay: "0.15s" }}>
+        <div
+          className="animate-fade-in-up lg:pl-4"
+          style={{ animationDelay: "0.15s" }}
+        >
           <DashboardMockup />
         </div>
       </div>
