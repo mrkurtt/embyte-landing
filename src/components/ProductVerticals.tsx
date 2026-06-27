@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  GraduationCap,
-  Heart,
-  Ticket,
-  type LucideIcon,
-} from "lucide-react";
-import { useState } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { GraduationCap, Heart, Ticket, type LucideIcon } from "lucide-react";
+import { useState } from "react";
 
 type Product = {
   id: string;
@@ -19,6 +14,20 @@ type Product = {
 };
 
 const products: Product[] = [
+  {
+    id: "nexus",
+    name: "Embyte Nexus",
+    shortName: "Nexus",
+    icon: Ticket,
+    description:
+      "Our universal SaaS engine for conferences, concerts, corporate galas, and general event ticketing. Flexible, powerful, ready to deploy.",
+    highlights: [
+      "Automated QR ticket generation at scale",
+      "Real-time analytics dashboards for live ops",
+      "Mobile web scanner access for on-site staff",
+      "Modular integrations with your existing stack",
+    ],
+  },
   {
     id: "campus",
     name: "Embyte Campus",
@@ -47,20 +56,6 @@ const products: Product[] = [
       "White-glove onboarding for coordinators",
     ],
   },
-  {
-    id: "core",
-    name: "Embyte Core",
-    shortName: "Core",
-    icon: Ticket,
-    description:
-      "Our universal SaaS engine for conferences, concerts, corporate galas, and general event ticketing. Flexible, powerful, ready to deploy.",
-    highlights: [
-      "Automated QR ticket generation at scale",
-      "Real-time analytics dashboards for live ops",
-      "Mobile web scanner access for on-site staff",
-      "Modular integrations with your existing stack",
-    ],
-  },
 ];
 
 export function ProductVerticals() {
@@ -86,7 +81,7 @@ export function ProductVerticals() {
               role="tab"
               aria-selected={activeId === product.id}
               onClick={() => setActiveId(product.id)}
-              className={`min-h-11 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7e5f] ${
+              className={`min-h-11 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7e5f] hover:cursor-pointer ${
                 activeId === product.id
                   ? "bg-brand-gradient text-white shadow-lg shadow-[#ed1e79]/20"
                   : "border border-border bg-surface text-muted hover:border-white/20 hover:text-foreground"
