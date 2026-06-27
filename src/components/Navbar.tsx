@@ -17,9 +17,11 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/70 backdrop-blur-xl">
+    <header
+      className={`sticky top-0 border-b border-border bg-background/70 backdrop-blur-xl ${mobileOpen ? "z-[110]" : "z-50"}`}
+    >
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
+        className={`relative mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8 ${mobileOpen ? "z-[120]" : ""}`}
         aria-label="Main navigation"
       >
         <Link href="/" className="flex shrink-0 items-center gap-2.5">
@@ -70,7 +72,13 @@ export function Navbar() {
       </nav>
 
       {mobileOpen && (
-        <div className="border-t border-border bg-background/95 px-4 py-4 backdrop-blur-xl md:hidden">
+        <>
+          <div
+            className="fixed inset-0 z-[100] bg-background/50 backdrop-blur-xl md:hidden"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="relative z-[110] border-t border-border bg-background/95 px-4 py-4 backdrop-blur-xl md:hidden">
           <ul className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -102,7 +110,8 @@ export function Navbar() {
               Get Started
             </Button>
           </div>
-        </div>
+          </div>
+        </>
       )}
     </header>
   );
