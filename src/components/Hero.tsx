@@ -1,12 +1,22 @@
 import { DashboardMockup } from "@/components/DashboardMockup";
 import { Button } from "@/components/ui/Button";
+import Image from "next/image";
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#ff7e5f]/10 blur-[120px]" />
-        <div className="absolute top-20 right-0 h-[400px] w-[400px] rounded-full bg-[#ed1e79]/10 blur-[100px]" />
+        <Image
+          src="/hero-2.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-background/55 lg:to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
       </div>
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-32">
