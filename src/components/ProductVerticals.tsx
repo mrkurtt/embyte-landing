@@ -1,7 +1,14 @@
 "use client";
 
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { GraduationCap, Heart, Ticket, type LucideIcon } from "lucide-react";
+import {
+  Check,
+  GraduationCap,
+  Heart,
+  Ticket,
+  type LucideIcon,
+} from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 type Product = {
@@ -9,8 +16,10 @@ type Product = {
   name: string;
   shortName: string;
   icon: LucideIcon;
+  image: string;
   description: string;
   highlights: string[];
+  trustBadge?: string;
 };
 
 const products: Product[] = [
@@ -19,6 +28,7 @@ const products: Product[] = [
     name: "Embyte Nexus",
     shortName: "Nexus",
     icon: Ticket,
+    image: "/types/nexus.jpg",
     description:
       "Our universal SaaS engine for conferences, concerts, corporate galas, and general event ticketing. Flexible, powerful, ready to deploy.",
     highlights: [
@@ -33,8 +43,11 @@ const products: Product[] = [
     name: "Embyte Campus",
     shortName: "Campus",
     icon: GraduationCap,
+    image: "/types/campus.JPG",
     description:
       "Tailored for institutional ticketing, university events, and large-scale alumni homecomings. Built to handle complex campus operations at scale.",
+    trustBadge:
+      "Trusted by Lourdes College CDO for Hali Namo Alumni Homecoming",
     highlights: [
       "Heavy-duty data mapping across departments",
       "Batch physical and digital ticket processing",
@@ -47,6 +60,7 @@ const products: Product[] = [
     name: "Embyte Weddings",
     shortName: "Weddings",
     icon: Heart,
+    image: "/types/wedding.jpg",
     description:
       "Designed for premium event coordinators and couples who demand elegance without compromise. Every touchpoint reflects your brand.",
     highlights: [
@@ -73,49 +87,95 @@ export function ProductVerticals() {
           className="mb-12"
         />
 
-        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          {products.map((product) => (
-            <button
-              key={product.id}
-              type="button"
-              role="tab"
-              aria-selected={activeId === product.id}
-              onClick={() => setActiveId(product.id)}
-              className={`min-h-11 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7e5f] hover:cursor-pointer ${
-                activeId === product.id
-                  ? "bg-brand-gradient text-white shadow-lg shadow-[#ed1e79]/20"
-                  : "border border-border bg-surface text-muted hover:border-white/20 hover:text-foreground"
-              }`}
-            >
-              {product.shortName}
-            </button>
-          ))}
+        <div
+          role="tablist"
+          aria-label="Product verticals"
+          className="mb-10 flex justify-center"
+        >
+          <div className="inline-flex w-full max-w-sm flex-col gap-1 rounded-2xl border border-border bg-surface/60 p-1.5 sm:max-w-none sm:w-auto sm:flex-row">
+            {products.map((product) => {
+              const TabIcon = product.icon;
+              const isActive = activeId === product.id;
+
+              return (
+                <button
+                  key={product.id}
+                  id={`tab-${product.id}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`panel-${product.id}`}
+                  onClick={() => setActiveId(product.id)}
+                  className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff7e5f] hover:cursor-pointer sm:flex-initial ${
+                    isActive
+                      ? "bg-brand-gradient text-white shadow-lg shadow-[#ed1e79]/20"
+                      : "text-muted hover:bg-white/5 hover:text-foreground"
+                  }`}
+                >
+                  <TabIcon className="h-4 w-4 shrink-0" aria-hidden />
+                  {product.shortName}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div
           role="tabpanel"
+          id={`panel-${active.id}`}
+          aria-labelledby={`tab-${active.id}`}
           key={active.id}
-          className="gradient-border animate-fade-in-up rounded-2xl bg-surface p-8 sm:p-10"
+          className="gradient-border animate-fade-in-up relative overflow-hidden rounded-2xl bg-surface"
         >
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand-gradient">
-              <Icon className="h-7 w-7 text-white" />
+          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#ff7e5f]/10 blur-[100px]" />
+          <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#ed1e79]/10 blur-[100px]" />
+
+          <div className="relative grid lg:grid-cols-2">
+            <div className="relative aspect-[16/10] min-h-[220px] lg:aspect-auto lg:min-h-[440px]">
+              <Image
+                src={active.image}
+                alt={`${active.name} showcase`}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 640px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-surface/10 lg:to-surface" />
+              <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-white/10 bg-black/45 px-3 py-1.5 backdrop-blur-md">
+                <Icon className="h-4 w-4 text-[#ff7e5f]" aria-hidden />
+                <span className="text-sm font-medium text-white">
+                  {active.shortName}
+                </span>
+              </div>
             </div>
-            <div className="flex-1">
-              <h3 className="text-2xl font-bold text-foreground">
+
+            <div className="flex flex-col justify-center p-8 sm:p-10 lg:p-12">
+              {active.trustBadge && (
+                <p className="mb-4 inline-flex w-fit items-start gap-2 rounded-full border border-[#ff7e5f]/25 bg-[#ff7e5f]/10 px-3.5 py-1.5 text-xs font-medium leading-snug text-[#ff7e5f]">
+                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+                  {active.trustBadge}
+                </p>
+              )}
+
+              <h3 className="text-2xl font-bold text-foreground sm:text-3xl">
                 {active.name}
               </h3>
-              <p className="mt-3 text-lg leading-relaxed text-muted">
+              <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
                 {active.description}
               </p>
-              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+
+              <ul className="mt-8 grid gap-3 sm:grid-cols-2">
                 {active.highlights.map((highlight) => (
                   <li
                     key={highlight}
-                    className="flex items-start gap-2.5 text-sm text-foreground/90"
+                    className="flex items-start gap-3 rounded-xl border border-border bg-white/[0.03] p-3.5 transition-colors duration-200 hover:border-[#ff7e5f]/20 hover:bg-white/[0.05]"
                   >
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gradient" />
-                    {highlight}
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-brand-gradient">
+                      <Check className="h-3.5 w-3.5 text-white" aria-hidden />
+                    </span>
+                    <span className="text-sm leading-snug text-foreground/90">
+                      {highlight}
+                    </span>
                   </li>
                 ))}
               </ul>

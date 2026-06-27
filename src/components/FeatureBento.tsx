@@ -21,6 +21,7 @@ const features = [
     title: "Memory Vault",
     description:
       "Frictionless, app-free guest uploads for photos and videos. Guests contribute to a shared media vault via a simple link — no accounts required.",
+    badge: "Embyte Weddings",
     span: "",
   },
 ];
@@ -45,9 +46,16 @@ export function FeatureBento() {
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/5 transition-colors group-hover:bg-brand-gradient">
                 <feature.icon className="h-6 w-6 text-[#ff7e5f] transition-colors group-hover:text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-foreground">
-                {feature.title}
-              </h3>
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-xl font-semibold text-foreground">
+                  {feature.title}
+                </h3>
+                {"badge" in feature && feature.badge && (
+                  <span className="rounded-full border border-[#ff7e5f]/25 bg-[#ff7e5f]/10 px-2.5 py-0.5 text-xs font-medium text-[#ff7e5f]">
+                    {feature.badge}
+                  </span>
+                )}
+              </div>
               <p className="mt-3 text-sm leading-relaxed text-muted">
                 {feature.description}
               </p>
