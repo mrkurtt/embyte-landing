@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { useState, type FormEvent } from "react";
 
 type FormData = {
   name: string;
@@ -29,6 +29,8 @@ export function ContactSection() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   function validate(): FormErrors {
     const next: FormErrors = {};
@@ -45,12 +47,37 @@ export function ContactSection() {
     return next;
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const nextErrors = validate();
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
-    setSubmitted(true);
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        setSubmitError(
+          data.error ?? "Failed to send message. Please try again.",
+        );
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setSubmitError("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   function updateField(field: keyof FormData, value: string) {
@@ -69,7 +96,7 @@ export function ContactSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Get in Touch"
-          title="Book a demo or get started"
+          title="Book a Demo or Get Started"
           description="Tell us about your event and we'll reach out with next steps — whether you're exploring a pilot or ready to join as a Launch Partner."
           className="mb-12"
         />
@@ -81,8 +108,8 @@ export function ContactSection() {
                 Thanks — we&apos;ll be in touch shortly.
               </p>
               <p className="mt-2 text-sm text-muted">
-                Our team will review your request and respond within 1–2 business
-                days.
+                Our team will review your request and respond within 1–2
+                business days.
               </p>
             </div>
           ) : (
@@ -92,7 +119,10 @@ export function ContactSection() {
               noValidate
             >
               <div>
-                <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-foreground">
+                <label
+                  htmlFor="name"
+                  className="mb-1.5 block text-sm font-medium text-foreground"
+                >
                   Name
                 </label>
                 <input
@@ -109,7 +139,10 @@ export function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-foreground">
+                <label
+                  htmlFor="email"
+                  className="mb-1.5 block text-sm font-medium text-foreground"
+                >
                   Email
                 </label>
                 <input
@@ -126,7 +159,10 @@ export function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="organization" className="mb-1.5 block text-sm font-medium text-foreground">
+                <label
+                  htmlFor="organization"
+                  className="mb-1.5 block text-sm font-medium text-foreground"
+                >
                   Organization
                 </label>
                 <input
@@ -145,7 +181,10 @@ export function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="eventType" className="mb-1.5 block text-sm font-medium text-foreground">
+                <label
+                  htmlFor="eventType"
+                  className="mb-1.5 block text-sm font-medium text-foreground"
+                >
                   Event Type
                 </label>
                 <select
@@ -161,12 +200,17 @@ export function ContactSection() {
                   <option value="other">Other</option>
                 </select>
                 {errors.eventType && (
-                  <p className="mt-1 text-xs text-red-400">{errors.eventType}</p>
+                  <p className="mt-1 text-xs text-red-400">
+                    {errors.eventType}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-foreground">
+                <label
+                  htmlFor="message"
+                  className="mb-1.5 block text-sm font-medium text-foreground"
+                >
                   Message
                 </label>
                 <textarea
@@ -182,9 +226,19 @@ export function ContactSection() {
                 )}
               </div>
 
-              <Button type="submit" variant="primary" className="w-full">
-                Send Message
+              <Button
+                type="submit"
+                variant="primary"
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
+              {submitError && (
+                <p className="text-center text-sm text-red-400">
+                  {submitError}
+                </p>
+              )}
             </form>
           )}
         </div>
