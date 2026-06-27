@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -16,6 +16,7 @@ const navLinks = [
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const [navHeight, setNavHeight] = useState(0);
 
   useLayoutEffect(() => {
@@ -28,6 +29,20 @@ export function Navbar() {
     updateHeight();
     window.addEventListener("resize", updateHeight);
     return () => window.removeEventListener("resize", updateHeight);
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Node;
+      if (menuRef.current?.contains(target)) return;
+      if ((target as Element).closest?.('button[aria-expanded="true"]')) return;
+      setMobileOpen(false);
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, [mobileOpen]);
 
   return (
@@ -98,6 +113,7 @@ export function Navbar() {
             aria-hidden="true"
           />
           <div
+            ref={menuRef}
             className="fixed inset-x-0 z-[110] overflow-y-auto border-t border-border bg-background/95 px-4 py-4 backdrop-blur-xl md:hidden"
             style={{
               top: navHeight,
