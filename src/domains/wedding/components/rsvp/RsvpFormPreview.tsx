@@ -31,7 +31,7 @@ export function RsvpFormPreview() {
       </p>
 
       {/* Outer frame wrapper */}
-      <div className={`relative ${hasFrame ? 'p-3 sm:p-4' : ''}`}>
+      <div className={`relative overflow-hidden ${hasFrame ? 'p-3 sm:p-4' : ''}`}>
         {/* Decorative corner assets */}
         {hasCorners && (
           <>
@@ -79,9 +79,9 @@ export function RsvpFormPreview() {
           <div
             className={`transition-colors duration-300 ${
               hasFrame
-                ? `overflow-hidden rounded-[14px] border border-[var(--theme-border)] bg-[var(--theme-surface)] ${
-                    deco.frameStyle === 'double' ? 'shadow-2xl' : 'shadow-lg'
-                  }`
+                ? deco.frameStyle === 'double'
+                  ? 'overflow-hidden rounded-[14px] border border-[var(--theme-border)] bg-[var(--theme-surface)] shadow-2xl'
+                  : 'overflow-hidden rounded-[14px] border border-[var(--theme-border)] bg-[var(--theme-surface)] shadow-lg'
                 : ''
             }`}
           >

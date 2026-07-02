@@ -1,5 +1,7 @@
 'use server';
 
+import { mockRsvpForms } from '@/domains/wedding/data/mocks';
+
 // Mock data store — in production this would be a database
 const mockForms = new Map<
   string,
@@ -14,16 +16,18 @@ const mockForms = new Map<
   }
 >();
 
-// Seed a demo form
-mockForms.set('demo', {
-  id: 'demo',
-  themeId: 'classic-navy',
-  partner1Name: 'Kurt',
-  partner2Name: 'Alye',
-  eventDate: '2026-08-08',
-  coverImageUrl: null,
-  customFields: [],
-});
+// Seed demo forms — one per theme
+for (const form of mockRsvpForms) {
+  mockForms.set(form.id, {
+    id: form.id,
+    themeId: form.themeId,
+    partner1Name: form.partner1Name,
+    partner2Name: form.partner2Name,
+    eventDate: form.eventDate,
+    coverImageUrl: form.coverImageUrl,
+    customFields: form.customFields,
+  });
+}
 
 export async function saveRsvpForm(data: {
   partner1Name: string;

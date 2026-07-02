@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect, type FormEvent } from 'react'
 import { CheckCircle, Loader2 } from 'lucide-react';
 import { useTheme } from '@/shared/theme/useTheme';
 import { FormField, RadioGroup, SelectField, CheckboxGroup } from './FormField';
+import { mockRsvpForms } from '@/domains/wedding/data/mocks';
 
 interface RsvpGuestFormProps {
   partner1Name?: string;
@@ -31,9 +32,9 @@ const DIETARY_OPTIONS = [
 ];
 
 export function RsvpGuestForm({
-  partner1Name = 'Kurt',
-  partner2Name = 'Alye',
-  eventDate = 'August 8, 2026',
+  partner1Name = mockRsvpForms[0].partner1Name,
+  partner2Name = mockRsvpForms[0].partner2Name,
+  eventDate = mockRsvpForms[0].eventDateDisplay,
   coverImageUrl,
 }: RsvpGuestFormProps) {
   const theme = useTheme();
@@ -151,39 +152,67 @@ export function RsvpGuestForm({
       : "We'll miss you. Thank you for letting us know.";
 
     return (
-      <div className="mx-auto max-w-md text-center">
-        <div
-          className={`transition-all duration-500 ease-out ${
-            successVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-4 opacity-0 scale-95'
-          }`}
-        >
-          {hasSubmitAsset && (
-            <img
-              src={deco.submitAsset!}
-              alt=""
-              aria-hidden="true"
-              className="pointer-events-none mx-auto mb-4 h-12 w-auto"
-              style={{ opacity: deco.submitOpacity ?? '0.5' }}
-            />
+      <div className="mx-auto w-full max-w-md">
+        <div className={`relative overflow-hidden ${hasFrame ? 'p-3 sm:p-4' : ''}`}>
+          {hasCorners && (
+            <>
+              <img src={deco.cornerAsset!} alt="" aria-hidden="true" className="pointer-events-none absolute -left-2 -top-2 h-28 w-28 mix-blend-multiply" style={{ opacity: deco.cornerOpacity ?? '0.3' }} />
+              <img src={deco.cornerAsset!} alt="" aria-hidden="true" className="pointer-events-none absolute -right-2 -top-2 h-28 w-28 scale-x-[-1] mix-blend-multiply" style={{ opacity: deco.cornerOpacity ?? '0.3' }} />
+              <img src={deco.cornerAsset!} alt="" aria-hidden="true" className="pointer-events-none absolute -left-2 -bottom-2 h-28 w-28 rotate-[-90deg] mix-blend-multiply" style={{ opacity: deco.cornerOpacity ?? '0.3' }} />
+              <img src={deco.cornerAsset!} alt="" aria-hidden="true" className="pointer-events-none absolute -right-2 -bottom-2 h-28 w-28 rotate-[90deg] scale-x-[-1] mix-blend-multiply" style={{ opacity: deco.cornerOpacity ?? '0.3' }} />
+            </>
           )}
           <div
-            className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full"
-            style={{ backgroundColor: 'var(--theme-accent)' }}
+            className={`bg-[var(--theme-surface)] transition-colors duration-300 ${
+              hasFrame
+                ? deco.frameStyle === 'double'
+                  ? 'rounded-2xl border-2 border-[var(--theme-border)]/40 p-[1px]'
+                  : 'rounded-2xl border border-[var(--theme-border)]'
+                : 'rounded-none border-none'
+            }`}
           >
-            <CheckCircle
-              className="h-8 w-8"
-              style={{ color: 'var(--theme-primary)' }}
-            />
+            <div
+              className={`transition-colors duration-300 ${
+                hasFrame
+                  ? deco.frameStyle === 'double'
+                    ? 'overflow-hidden rounded-[14px] border border-[var(--theme-border)] bg-[var(--theme-surface)] shadow-2xl'
+                    : 'overflow-hidden rounded-[14px] border border-[var(--theme-border)] bg-[var(--theme-surface)] shadow-lg'
+                  : ''
+              }`}
+            >
+              <div className={`p-8 text-center transition-all duration-500 ease-out ${
+                successVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-4 opacity-0 scale-95'
+              }`}>
+                {hasSubmitAsset && (
+                  <img
+                    src={deco.submitAsset!}
+                    alt=""
+                    aria-hidden="true"
+                    className="pointer-events-none mx-auto mb-4 h-12 w-auto"
+                    style={{ opacity: deco.submitOpacity ?? '0.5' }}
+                  />
+                )}
+                <div
+                  className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full"
+                  style={{ backgroundColor: 'var(--theme-accent)' }}
+                >
+                  <CheckCircle
+                    className="h-8 w-8"
+                    style={{ color: 'var(--theme-primary)' }}
+                  />
+                </div>
+                <h2
+                  className="text-3xl font-bold text-[var(--theme-text)]"
+                  style={{ fontFamily: 'var(--theme-font-heading)' }}
+                >
+                  {isAttending ? 'Thank you' : 'Noted'}
+                </h2>
+                <p className="mt-3 text-lg text-[var(--theme-text-secondary)]">
+                  {attendingText}
+                </p>
+              </div>
+            </div>
           </div>
-          <h2
-            className="text-3xl font-bold text-[var(--theme-text)]"
-            style={{ fontFamily: 'var(--theme-font-heading)' }}
-          >
-            {isAttending ? 'Thank you' : 'Noted'}
-          </h2>
-          <p className="mt-3 text-lg text-[var(--theme-text-secondary)]">
-            {attendingText}
-          </p>
         </div>
       </div>
     );
@@ -192,7 +221,7 @@ export function RsvpGuestForm({
   return (
     <div className="mx-auto w-full max-w-md">
       {/* Outer frame wrapper */}
-      <div className={`relative ${hasFrame ? 'p-3 sm:p-4' : ''}`}>
+      <div className={`relative overflow-hidden ${hasFrame ? 'p-3 sm:p-4' : ''}`}>
         {/* Decorative corner assets */}
         {hasCorners && (
           <>

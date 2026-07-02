@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@/shared/theme/ThemeProvider';
 import { getWeddingTheme } from '@/domains/wedding/themes';
 import { RsvpGuestForm } from '@/domains/wedding/components/public-form/RsvpGuestForm';
+import { getMockForm } from '@/domains/wedding/data/mocks';
 
 interface Props {
   params: Promise<{ formId: string }>;
@@ -8,22 +9,16 @@ interface Props {
 
 // Mock data lookup — in production this would fetch from database
 async function getFormConfig(formId: string) {
-  const mockData: Record<string, ReturnType<typeof getWeddingTheme> & {
-    partner1Name: string;
-    partner2Name: string;
-    eventDate: string;
-    coverImageUrl: string | null;
-  }> = {
-    demo: {
-      ...getWeddingTheme('classic-navy'),
-      partner1Name: 'Kurt',
-      partner2Name: 'Alye',
-      eventDate: 'August 8, 2026',
-      coverImageUrl: null,
-    },
-  };
+  const mock = getMockForm(formId);
+  if (!mock) return null;
 
-  return mockData[formId] ?? null;
+  return {
+    ...getWeddingTheme(mock.themeId),
+    partner1Name: mock.partner1Name,
+    partner2Name: mock.partner2Name,
+    eventDate: mock.eventDateDisplay,
+    coverImageUrl: mock.coverImageUrl,
+  };
 }
 
 export default async function RsvpFormPage({ params }: Props) {
@@ -40,7 +35,8 @@ export default async function RsvpFormPage({ params }: Props) {
     );
   }
 
-  const theme = getWeddingTheme(formConfig.id);
+  const mock = getMockForm(formId)!;
+  const theme = getWeddingTheme(mock.themeId);
 
   return (
     <ThemeProvider config={theme}>

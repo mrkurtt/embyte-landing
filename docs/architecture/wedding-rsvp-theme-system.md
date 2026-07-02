@@ -548,8 +548,63 @@ Post-submission thank-you page. Shows a checkmark icon and confirmation message 
 | Action | Purpose |
 |--------|---------|
 | `saveRsvpForm(data)` | Save form config to database, return `formId` |
-| `uploadCoverImage(formData)` | Upload image to storage, return public URL |
 | `submitRsvpResponse(formId, responses)` | Store guest RSVP submission |
+
+---
+
+## Mock Routes & Data
+
+Each wedding theme has a pre-seeded mock RSVP form accessible via a static route. No database required — mock data lives in `src/domains/wedding/data/mocks.ts` and is consumed by the server actions and page server components.
+
+### Mock Form Data (`data/mocks.ts`)
+
+```ts
+export interface MockRsvpForm {
+  id: string;              // URL slug (matches theme ID)
+  themeId: string;         // Theme preset to apply
+  partner1Name: string;
+  partner2Name: string;
+  eventDate: string;       // ISO date for builder input
+  eventDateDisplay: string; // Human-readable for public form
+  coverImageUrl: string | null;
+  customFields: { label: string; type: string; required: boolean }[];
+}
+```
+
+All 5 themes are seeded at startup. The `mockRsvpForms` array and `getMockForm(id)` helper are imported by:
+
+- **`actions.ts`** — seeds the in-memory `mockForms` Map
+- **`[formId]/page.tsx`** — looks up form config by ID
+- **`RsvpGuestForm.tsx`** — uses first entry as default props
+
+### Routes
+
+| Route | Description |
+|-------|-------------|
+| `/wedding/rsvp` | Builder — theme selector + form editor + live preview |
+| `/wedding/rsvp/[formId]` | Public RSVP form (guest-facing) |
+| `/wedding/rsvp/[formId]/submitted` | Post-submission confirmation |
+
+### Mock URLs
+
+| URL | Theme | Couple |
+|-----|-------|--------|
+| `/wedding/rsvp/classic-navy` | Classic Navy | Emma & Liam |
+| `/wedding/rsvp/romantic-blush` | Romantic Blush | Sofia & Noah |
+| `/wedding/rsvp/timeless-ivory` | Timeless Ivory | Olivia & Ethan |
+| `/wedding/rsvp/garden-sage` | Garden Sage | Ava & Lucas |
+| `/wedding/rsvp/modern-minimal` | Modern Minimal | Mia & James |
+
+### How It Works
+
+1. `actions.ts` imports `mockRsvpForms` and seeds a `Map<string, FormConfig>` at module load
+2. `getRsvpForm(formId)` looks up from the Map (falls back to `null` for unknown IDs)
+3. `[formId]/page.tsx` calls `getMockForm(formId)` to resolve the theme ID, then renders `RsvpGuestForm` inside a `ThemeProvider`
+4. Unknown form IDs render a "Form not found" message
+
+### Adding a New Mock
+
+Add an entry to `mockRsvpForms` in `data/mocks.ts`. The form ID becomes the URL slug — use the theme ID for consistency. No other files need changes.
 
 ---
 
