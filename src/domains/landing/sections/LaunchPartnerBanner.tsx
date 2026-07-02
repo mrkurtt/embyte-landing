@@ -1,5 +1,5 @@
 import { Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/shared/components/Button";
 
 export function LaunchPartnerBanner() {
   return (

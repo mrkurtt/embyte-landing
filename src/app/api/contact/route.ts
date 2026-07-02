@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { sendContactEmail, type ContactFormPayload } from "@/lib/mail";
+import { sendContactEmail, type ContactFormPayload } from "@/shared/lib/mail";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validEventTypes = new Set(["campus", "wedding", "conference", "other"]);

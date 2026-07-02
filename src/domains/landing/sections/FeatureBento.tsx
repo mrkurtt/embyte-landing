@@ -1,5 +1,5 @@
 import { BarChart3, Image, ShieldCheck } from "lucide-react";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SectionHeading } from "@/shared/components/SectionHeading";
 
 const features = [
   {

@@ -1,6 +1,6 @@
 "use client";
 
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SectionHeading } from "@/shared/components/SectionHeading";
 import {
   Check,
   GraduationCap,

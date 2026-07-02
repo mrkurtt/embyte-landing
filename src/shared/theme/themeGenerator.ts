@@ -1,0 +1,38 @@
+import type { ThemeConfig } from './types';
+
+export function generateThemeVars(config: ThemeConfig): Record<string, string> {
+  return {
+    '--theme-primary': config.colors.primary,
+    '--theme-secondary': config.colors.secondary,
+    '--theme-accent': config.colors.accent,
+    '--theme-bg': config.colors.background,
+    '--theme-surface': config.colors.surface,
+    '--theme-surface-elevated': config.colors.surfaceElevated,
+    '--theme-text': config.colors.text,
+    '--theme-text-secondary': config.colors.textSecondary,
+    '--theme-text-inverse': config.colors.textInverse,
+    '--theme-border': config.colors.border,
+    '--theme-border-focus': config.colors.borderFocus,
+    '--theme-success': config.colors.success,
+    '--theme-warning': config.colors.warning,
+    '--theme-error': config.colors.error,
+    '--theme-font-heading': config.typography.headingFamily,
+    '--theme-font-body': config.typography.bodyFamily,
+    '--theme-font-mono': config.typography.monoFamily,
+    '--theme-font-weight-heading': config.typography.headingWeight,
+    '--theme-font-weight-body': config.typography.bodyWeight,
+    '--theme-radius-sm': config.radius.sm,
+    '--theme-radius-md': config.radius.md,
+    '--theme-radius-lg': config.radius.lg,
+    '--theme-radius-xl': config.radius.xl,
+    '--theme-radius-full': config.radius.full,
+    '--theme-deco-corner-asset': config.decoration.cornerAsset ?? 'none',
+    '--theme-deco-corner-opacity': config.decoration.cornerOpacity ?? '0',
+    '--theme-deco-divider-asset': config.decoration.dividerAsset ?? 'none',
+    '--theme-deco-divider-opacity': config.decoration.dividerOpacity ?? '0',
+    '--theme-deco-submit-asset': config.decoration.submitAsset ?? 'none',
+    '--theme-deco-submit-opacity': config.decoration.submitOpacity ?? '0',
+    '--theme-deco-field-separator': config.decoration.fieldSeparator ?? 'line',
+    '--theme-deco-frame-style': config.decoration.frameStyle ?? 'single',
+  };
+}
