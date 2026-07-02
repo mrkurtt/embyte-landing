@@ -1,5 +1,5 @@
-import { DashboardMockup } from "@/components/DashboardMockup";
-import { Button } from "@/components/ui/Button";
+import { DashboardMockup } from "@/domains/landing/components/DashboardMockup";
+import { Button } from "@/shared/components/Button";
 import Image from "next/image";
 
 export function Hero() {

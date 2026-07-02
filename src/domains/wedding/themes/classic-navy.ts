@@ -1,0 +1,47 @@
+import type { ThemeConfig } from '@/shared/theme/types';
+
+export const classicNavy = {
+  id: 'classic-navy',
+  name: 'Classic Navy',
+  domain: 'wedding',
+  preview: {
+    borderColor: '#C9A84C',
+    label: 'Regal & Ornate',
+    description: 'Deep navy and gold with commanding serif typography, evoking luxury invitation suites',
+    swatch: { bg: '#0F1B33', accent: '#C9A84C', text: '#F5F0E1' },
+  },
+  colors: {
+    primary: '#C9A84C',
+    secondary: '#0F1B33',
+    accent: '#D4AF37',
+    background: '#0F1B33',
+    surface: '#162240',
+    surfaceElevated: '#1E2D52',
+    text: '#F5F0E1',
+    textSecondary: '#A0A8BE',
+    textInverse: '#0F1B33',
+    border: '#2A3A5C',
+    borderFocus: '#C9A84C',
+    success: '#6B9E6B',
+    warning: '#C9A84C',
+    error: '#D45B5B',
+  },
+  typography: {
+    headingFamily: 'var(--font-playfair), Georgia, serif',
+    bodyFamily: 'var(--font-lora), Georgia, serif',
+    monoFamily: 'var(--font-geist-mono), monospace',
+    headingWeight: '800',
+    bodyWeight: '400',
+  },
+  radius: { sm: '8px', md: '16px', lg: '24px', xl: '32px', full: '999px' },
+  decoration: {
+    cornerAsset: '/wedding/floral.png',
+    cornerOpacity: '0.3',
+    dividerAsset: '/wedding/divider.png',
+    dividerOpacity: '0.5',
+    submitAsset: '/wedding/swans.png',
+    submitOpacity: '0.5',
+    fieldSeparator: 'ornament' as const,
+    frameStyle: 'double' as const,
+  },
+} satisfies ThemeConfig;

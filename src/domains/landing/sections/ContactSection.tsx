@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Button } from "@/shared/components/Button";
+import { SectionHeading } from "@/shared/components/SectionHeading";
 import { useState, type FormEvent } from "react";
 
 type FormData = {
