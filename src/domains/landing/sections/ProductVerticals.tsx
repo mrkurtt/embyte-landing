@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { SectionHeading } from "@/shared/components/SectionHeading";
 import {
   Check,
@@ -120,13 +121,18 @@ export function ProductVerticals() {
           </div>
         </div>
 
-        <div
-          role="tabpanel"
-          id={`panel-${active.id}`}
-          aria-labelledby={`tab-${active.id}`}
-          key={active.id}
-          className="gradient-border animate-fade-in-up relative overflow-hidden rounded-2xl bg-surface"
-        >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active.id}
+            initial={{ opacity: 0, scale: 0.97, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: -8 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            role="tabpanel"
+            id={`panel-${active.id}`}
+            aria-labelledby={`tab-${active.id}`}
+            className="gradient-border relative overflow-hidden rounded-2xl bg-surface"
+          >
           <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#ff7e5f]/10 blur-[100px]" />
           <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#ed1e79]/10 blur-[100px]" />
 
@@ -173,7 +179,7 @@ export function ProductVerticals() {
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-brand-gradient">
                       <Check className="h-3.5 w-3.5 text-white" aria-hidden />
                     </span>
-                    <span className="text-sm leading-snug text-foreground/90">
+                    <span className="text-base leading-snug text-foreground/90">
                       {highlight}
                     </span>
                   </li>
@@ -181,7 +187,8 @@ export function ProductVerticals() {
               </ul>
             </div>
           </div>
-        </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );

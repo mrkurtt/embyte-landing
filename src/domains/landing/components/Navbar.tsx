@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Button } from "@/shared/components/Button";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -46,7 +47,10 @@ export function Navbar() {
   }, [mobileOpen]);
 
   return (
-    <header
+    <motion.header
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, ease: [0, 0, 0.2, 1], delay: 0.1 }}
       className={`sticky top-0 border-b border-border bg-background/70 backdrop-blur-xl ${mobileOpen ? "z-[110]" : "z-50"}`}
     >
       <nav
@@ -154,6 +158,6 @@ export function Navbar() {
           </div>
         </>
       )}
-    </header>
+    </motion.header>
   );
 }

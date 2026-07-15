@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "motion/react";
 import { SectionHeading } from "@/shared/components/SectionHeading";
 
 const phases = [
@@ -47,7 +50,11 @@ export function Roadmap() {
                 }`}
               >
                 <div className="hidden sm:block sm:w-1/2" />
-                <div
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
                   className={`sm:w-1/2 ${
                     index % 2 === 0 ? "sm:pr-12 sm:text-right" : "sm:pl-12"
                   }`}
@@ -82,7 +89,7 @@ export function Roadmap() {
                       {phase.description}
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
                 <div
                   className={`absolute left-4 top-6 hidden h-3 w-3 -translate-x-1/2 rounded-full sm:left-1/2 sm:block ${

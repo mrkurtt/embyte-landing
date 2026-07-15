@@ -1,8 +1,16 @@
+"use client";
+
+import { motion } from "motion/react";
 import { BarChart3, QrCode, Users } from "lucide-react";
 
 export function DashboardMockup() {
   return (
-    <div className="gradient-border animate-scale-in rounded-2xl bg-surface/80 p-1 shadow-2xl shadow-black/40 backdrop-blur-sm">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
+      className="gradient-border rounded-2xl bg-surface/80 p-1 shadow-xl shadow-black/40 backdrop-blur-sm"
+    >
       <div className="rounded-[calc(1rem-1px)] bg-[#0f1520] p-5">
         <div className="mb-4 flex items-center justify-between">
           <div>
@@ -66,6 +74,6 @@ export function DashboardMockup() {
           <span className="text-xs font-medium text-emerald-400">Online</span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

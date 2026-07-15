@@ -22,9 +22,9 @@ type ButtonProps = ButtonAsLink | ButtonAsButton;
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-brand-gradient text-white shadow-lg shadow-[#ed1e79]/20 hover:brightness-110 hover:scale-[1.02]",
+    "bg-brand-gradient text-white shadow-lg shadow-[#ed1e79]/20 hover:brightness-110 hover:scale-[1.02] hover:animate-[gradient-shimmer_2s_ease_infinite] active:scale-[0.97] active:transition-[transform] active:duration-100",
   secondary:
-    "border border-border bg-white/5 text-foreground hover:bg-white/10 hover:border-white/20",
+    "border border-border bg-white/5 text-foreground hover:bg-white/10 hover:border-white/20 active:bg-white/[0.08]",
 };
 
 const baseStyles =

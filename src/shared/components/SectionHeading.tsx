@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "motion/react";
+
 type SectionHeadingProps = {
   eyebrow?: string;
   title: string;
@@ -16,7 +20,13 @@ export function SectionHeading({
   const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
 
   return (
-    <div className={`max-w-2xl animate-fade-in-up ${alignClass} ${className}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className={`max-w-2xl ${alignClass} ${className}`}
+    >
       {eyebrow && (
         <p className="mb-3 text-sm font-medium uppercase tracking-widest text-brand-gradient">
           {eyebrow}
@@ -28,6 +38,6 @@ export function SectionHeading({
       {description && (
         <p className="mt-4 text-lg leading-relaxed text-muted">{description}</p>
       )}
-    </div>
+    </motion.div>
   );
 }

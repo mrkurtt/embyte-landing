@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Button } from "@/shared/components/Button";
 import { SectionHeading } from "@/shared/components/SectionHeading";
 import { useState, type FormEvent } from "react";
@@ -7,8 +8,6 @@ import { useState, type FormEvent } from "react";
 type FormData = {
   name: string;
   email: string;
-  organization: string;
-  eventType: string;
   message: string;
 };
 
@@ -17,13 +16,11 @@ type FormErrors = Partial<Record<keyof FormData, string>>;
 const initialForm: FormData = {
   name: "",
   email: "",
-  organization: "",
-  eventType: "",
   message: "",
 };
 
 const inputStyles =
-  "w-full rounded-xl border border-border bg-white/[0.03] px-4 py-3 text-sm text-foreground placeholder:text-muted/60 transition-colors focus:border-[#ff7e5f]/50 focus:outline-none focus:ring-2 focus:ring-[#ff7e5f]/20";
+  "w-full rounded-xl border border-border bg-white/[0.03] px-4 py-3 text-base text-foreground placeholder:text-muted/60 transition-colors focus:border-[#ff7e5f]/50 focus:outline-none focus:ring-2 focus:ring-[#ff7e5f]/20";
 
 export function ContactSection() {
   const [form, setForm] = useState<FormData>(initialForm);
@@ -40,9 +37,6 @@ export function ContactSection() {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       next.email = "Enter a valid email address";
     }
-    if (!form.organization.trim())
-      next.organization = "Organization is required";
-    if (!form.eventType) next.eventType = "Please select an event type";
     if (!form.message.trim()) next.message = "Message is required";
     return next;
   }
@@ -96,12 +90,18 @@ export function ContactSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Get in Touch"
-          title="Book a Demo or Get Started"
-          description="Tell us about your event and we'll reach out with next steps — whether you're exploring a pilot or ready to join as a Launch Partner."
+          title="Let&apos;s talk about your event"
+          description="Tell us what you're building and we'll reach out with next steps."
           className="mb-12"
         />
 
-        <div className="mx-auto max-w-xl">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="mx-auto max-w-xl"
+        >
           {submitted ? (
             <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center">
               <p className="text-lg font-semibold text-emerald-400">
@@ -128,6 +128,7 @@ export function ContactSection() {
                 <input
                   id="name"
                   type="text"
+                  autoComplete="name"
                   value={form.name}
                   onChange={(e) => updateField("name", e.target.value)}
                   className={inputStyles}
@@ -148,6 +149,7 @@ export function ContactSection() {
                 <input
                   id="email"
                   type="email"
+                  autoComplete="email"
                   value={form.email}
                   onChange={(e) => updateField("email", e.target.value)}
                   className={inputStyles}
@@ -155,54 +157,6 @@ export function ContactSection() {
                 />
                 {errors.email && (
                   <p className="mt-1 text-xs text-red-400">{errors.email}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="organization"
-                  className="mb-1.5 block text-sm font-medium text-foreground"
-                >
-                  Organization
-                </label>
-                <input
-                  id="organization"
-                  type="text"
-                  value={form.organization}
-                  onChange={(e) => updateField("organization", e.target.value)}
-                  className={inputStyles}
-                  placeholder="Your company or institution"
-                />
-                {errors.organization && (
-                  <p className="mt-1 text-xs text-red-400">
-                    {errors.organization}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="eventType"
-                  className="mb-1.5 block text-sm font-medium text-foreground"
-                >
-                  Event Type
-                </label>
-                <select
-                  id="eventType"
-                  value={form.eventType}
-                  onChange={(e) => updateField("eventType", e.target.value)}
-                  className={`${inputStyles} appearance-none`}
-                >
-                  <option value="">Select an event type</option>
-                  <option value="campus">Campus</option>
-                  <option value="wedding">Wedding</option>
-                  <option value="conference">Conference</option>
-                  <option value="other">Other</option>
-                </select>
-                {errors.eventType && (
-                  <p className="mt-1 text-xs text-red-400">
-                    {errors.eventType}
-                  </p>
                 )}
               </div>
 
@@ -232,7 +186,7 @@ export function ContactSection() {
                 className="w-full"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Sending..." : "Send Message"}
+                {isSubmitting ? "Sending..." : "Get in touch"}
               </Button>
               {submitError && (
                 <p className="text-center text-sm text-red-400">
@@ -241,7 +195,7 @@ export function ContactSection() {
               )}
             </form>
           )}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
