@@ -13,7 +13,7 @@ export function LaunchPartnerBanner() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="gradient-border relative overflow-hidden rounded-2xl bg-surface p-8 sm:p-12"
+          className="gradient-border relative overflow-hidden rounded-2xl bg-surface p-8 transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(255,126,95,0.1)] sm:p-12"
         >
           <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-[#ff7e5f]/10 blur-[80px]" />
           <div className="pointer-events-none absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-[#ed1e79]/10 blur-[80px]" />

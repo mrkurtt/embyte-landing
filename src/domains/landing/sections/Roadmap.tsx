@@ -60,7 +60,7 @@ export function Roadmap() {
                   }`}
                 >
                   <div
-                    className={`rounded-2xl border p-6 transition-colors ${
+                    className={`rounded-2xl border p-6 transition-all duration-200 hover:scale-[1.01] hover:border-[#ff7e5f]/30 hover:shadow-lg hover:shadow-[#ed1e79]/5 ${
                       phase.current
                         ? "gradient-border border-transparent bg-surface"
                         : "border-border bg-surface/50"

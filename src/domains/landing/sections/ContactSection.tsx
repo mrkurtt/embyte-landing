@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/shared/components/Button";
 import { SectionHeading } from "@/shared/components/SectionHeading";
 import { useState, type FormEvent } from "react";
@@ -102,8 +102,15 @@ export function ContactSection() {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto max-w-xl"
         >
+        <AnimatePresence mode="wait">
           {submitted ? (
-            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center">
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center"
+            >
               <p className="text-lg font-semibold text-emerald-400">
                 Thanks — we&apos;ll be in touch shortly.
               </p>
@@ -111,9 +118,13 @@ export function ContactSection() {
                 Our team will review your request and respond within 1–2
                 business days.
               </p>
-            </div>
+            </motion.div>
           ) : (
-            <form
+            <motion.form
+              key="form"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               onSubmit={handleSubmit}
               className="space-y-5 rounded-2xl border border-border bg-surface p-6 sm:p-8"
               noValidate
@@ -134,9 +145,19 @@ export function ContactSection() {
                   className={inputStyles}
                   placeholder="Your name"
                 />
-                {errors.name && (
-                  <p className="mt-1 text-xs text-red-400">{errors.name}</p>
-                )}
+                <AnimatePresence>
+                  {errors.name && (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="mt-1 text-xs text-red-400"
+                    >
+                      {errors.name}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
 
               <div>
@@ -155,9 +176,19 @@ export function ContactSection() {
                   className={inputStyles}
                   placeholder="you@organization.com"
                 />
-                {errors.email && (
-                  <p className="mt-1 text-xs text-red-400">{errors.email}</p>
-                )}
+                <AnimatePresence>
+                  {errors.email && (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="mt-1 text-xs text-red-400"
+                    >
+                      {errors.email}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
 
               <div>
@@ -175,9 +206,19 @@ export function ContactSection() {
                   className={`${inputStyles} resize-none`}
                   placeholder="Tell us about your event and what you're looking for..."
                 />
-                {errors.message && (
-                  <p className="mt-1 text-xs text-red-400">{errors.message}</p>
-                )}
+                <AnimatePresence>
+                  {errors.message && (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="mt-1 text-xs text-red-400"
+                    >
+                      {errors.message}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
 
               <Button
@@ -188,13 +229,22 @@ export function ContactSection() {
               >
                 {isSubmitting ? "Sending..." : "Get in touch"}
               </Button>
-              {submitError && (
-                <p className="text-center text-sm text-red-400">
-                  {submitError}
-                </p>
-              )}
-            </form>
+              <AnimatePresence>
+                {submitError && (
+                  <motion.p
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="text-center text-sm text-red-400"
+                  >
+                    {submitError}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </motion.form>
           )}
+        </AnimatePresence>
         </motion.div>
       </div>
     </section>

@@ -80,7 +80,13 @@ export function ProductVerticals() {
 
   return (
     <section id="products" className="py-20 sm:py-28">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+      >
         <SectionHeading
           eyebrow="Product Variants"
           title="Three verticals. One platform."
@@ -189,7 +195,7 @@ export function ProductVerticals() {
           </div>
           </motion.div>
         </AnimatePresence>
-      </div>
+      </motion.div>
     </section>
   );
 }

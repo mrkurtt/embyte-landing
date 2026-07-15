@@ -1,13 +1,15 @@
 "use client";
 
+import { useInView } from "motion/react";
 import { motion } from "motion/react";
 import { Check, Quote } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const stats = [
-  { value: "3", label: "Product Verticals", mono: false },
-  { value: "0", label: "App Downloads Required", mono: false },
-  { value: "24/7", label: "Live Dashboard Access", mono: false },
-  { value: "< 2s", label: "Scanner Response Time", mono: false },
+  { value: 3, prefix: "", suffix: "", label: "Product Verticals" },
+  { value: 0, prefix: "", suffix: "", label: "App Downloads Required" },
+  { value: 24, prefix: "", suffix: "/7", label: "Live Dashboard Access" },
+  { value: 2, prefix: "< ", suffix: "s", label: "Scanner Response Time" },
 ];
 
 const testimonials = [
@@ -19,26 +21,77 @@ const testimonials = [
   },
 ];
 
+function useCountUp(target: number, duration = 1200) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
+  useEffect(() => {
+    if (!inView || target === 0) {
+      if (target === 0 && inView) setCount(0);
+      return;
+    }
+
+    let start: number | null = null;
+    let raf: number;
+
+    function step(timestamp: number) {
+      if (start === null) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) {
+        raf = requestAnimationFrame(step);
+      }
+    }
+
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, target, duration]);
+
+  return { count, ref };
+}
+
+function AnimatedStat({
+  value,
+  prefix,
+  suffix,
+  label,
+}: {
+  value: number;
+  prefix: string;
+  suffix: string;
+  label: string;
+}) {
+  const { count, ref } = useCountUp(value);
+
+  return (
+    <div ref={ref} className="text-center">
+      <p className="font-mono text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+        {prefix}
+        {count}
+        {suffix}
+      </p>
+      <p className="mt-1 text-sm text-muted">{label}</p>
+    </div>
+  );
+}
+
 export function SocialProof() {
   return (
     <section id="proof" className="border-b border-border py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 gap-6 md:grid-cols-4"
-        >
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="font-mono text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                {stat.value}
-              </p>
-              <p className="mt-1 text-sm text-muted">{stat.label}</p>
-            </div>
+            <AnimatedStat
+              key={stat.label}
+              value={stat.value}
+              prefix={stat.prefix}
+              suffix={stat.suffix}
+              label={stat.label}
+            />
           ))}
-        </motion.div>
+        </div>
 
         <div className="mt-12">
           {testimonials.map((t) => (
