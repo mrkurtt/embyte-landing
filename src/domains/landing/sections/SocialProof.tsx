@@ -15,7 +15,7 @@ const stats = [
 const testimonials = [
   {
     quote:
-      "Embyte handled our homecoming gate security for 800+ alumni. Real-time check-ins, zero downtime.",
+      "Embyte handled our homecoming gate security for 1600+ alumni. Real-time check-ins, zero downtime.",
     name: "Lourdes College CDO",
     role: "Hali Namo Alumni Homecoming",
   },
